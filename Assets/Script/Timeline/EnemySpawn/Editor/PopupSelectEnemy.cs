@@ -10,10 +10,6 @@ using UnityEditor;
 namespace TimelineExtention
 {
 
-    public class AA : EditorWindow
-    {
-
-    }
     public class PopupSelectEnemy : EditorWindow
     {
         private EnemySpawnTrack targetTrack;
@@ -29,6 +25,14 @@ namespace TimelineExtention
 
         public void OnEnable()
         {
+            this.ReloadPrefabs();
+            this.minSize = new Vector2(128 * 6, 128 * 5);
+            this.position = new Rect(this.position.x, this.position.y, minSize.x, minSize.y);
+        }
+
+        public void ReloadPrefabs()
+        {
+            ClearData();
             var guids = AssetDatabase.FindAssets("t:prefab", new string[] { "Assets/Prefabs/Enemys" });
             foreach (var guid in guids)
             {
@@ -42,21 +46,30 @@ namespace TimelineExtention
                 // setup preview
                 var previewObj = new EnemyPreviewDrawer();
                 previewObj.SetPrefab(prefab);
-                previewObj.SetRenderSize(128,128);
+                previewObj.SetRenderSize(128, 128);
                 previewDrawers.Add(previewObj);
             }
-            this.minSize = new Vector2(128 * 6, 128 * 5);
-            this.position = new Rect(this.position.x, this.position.y, minSize.x, minSize.y);
         }
 
         private void OnDisable()
         {
-            foreach( var preview in previewDrawers)
+            ClearData();
+        }
+
+        private void ClearData()
+        {
+            if (previewDrawers != null)
             {
-                preview.Dispose();
+                foreach (var preview in previewDrawers)
+                {
+                    preview.Dispose();
+                }
+                previewDrawers.Clear();
             }
-            prefabs.Clear();
-            previewDrawers.Clear();
+            if (prefabs != null)
+            {
+                prefabs.Clear();
+            }
         }
 
         private void Update()
@@ -69,6 +82,8 @@ namespace TimelineExtention
             GUILayout.Label("敵選択", EditorStyles.boldLabel);
             if(GUILayout.Button("新しく敵の種類を追加する"))
             {
+                var window = EditorWindow.CreateInstance<PopupNewEnemyCreate>();
+                window.ShowAuxWindow();
             }
             EditorGUILayout.LabelField("");
 
@@ -87,6 +102,8 @@ namespace TimelineExtention
                 previewDrawers[i].Render();
                 var texture = previewDrawers[i].renderTexture;
                 GUIContent content = new GUIContent(texture);
+
+                EditorGUILayout.BeginVertical(GUILayout.MaxWidth(128));
                 if (GUILayout.Button(content, GUILayout.MaxWidth(128), GUILayout.MaxHeight(128)))
                 {
                     if (targetTrack != null)
@@ -95,8 +112,11 @@ namespace TimelineExtention
                         targetTrack.RebuildGraph();
                         EditorUtility.SetDirty(targetTrack);
                         isClose = true;
+                        break;
                     }
                 }
+                EditorGUILayout.LabelField(prefab.name,GUILayout.MaxWidth(120));
+                EditorGUILayout.EndHorizontal();
                 ++cnt;
                 if (cnt >= 5)
                 {

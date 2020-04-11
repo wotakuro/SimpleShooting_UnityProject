@@ -6,15 +6,16 @@ using System;
 using UnityEngine;
 using UnityEditor.SceneManagement;
 
-public class AutoLayoutProgram 
+public class AutoLayoutProgram
 {
     [MenuItem("ツール/作業用レイアウトにする")]
     public static void FromMenu()
     {
         AutoLayout();
+        EditorApplication.delayCall += SetupTimeline;
     }
 
-//    [UnityEditor.InitializeOnLoadMethod]
+    //    [UnityEditor.InitializeOnLoadMethod]
     public static void Init()
     {
         string path = "Temp/UnityEditor1stCheck.txt";
@@ -26,19 +27,36 @@ public class AutoLayoutProgram
     }
 
 
+
     public static void AutoLayout()
     {
         EditorUtility.LoadWindowLayout("Assets/Editor/Resources/Timeline.wlt");
         EditorSceneManager.OpenScene("Assets/Scenes/game.unity");
+    }
+
+    public static void SetupTimeline(){
         var stageTimelines = Resources.FindObjectsOfTypeAll<StageTimeline>();
         if( stageTimelines != null && stageTimelines.Length > 0)
         {
+            SetTimelineLock(false);
             Selection.activeGameObject = stageTimelines[0].gameObject;
-            SetTimelineLock();
-
+            SetTimelineLock(true);
         }
     }
-    private static void SetTimelineLock()
+    private static void SetTimelineLock(bool flag)
+    {
+        // state.editSequence.asset
+        EditorWindow timelineWindow = GetTimelineWindow();
+        if (timelineWindow != null)
+        {
+            Type timelineType = timelineWindow.GetType();
+            timelineWindow = EditorWindow.GetWindow(timelineType, false);
+
+            var setLockedMethod = timelineType.GetMethod("set_locked");
+            setLockedMethod.Invoke(timelineWindow, new object[] { flag });
+        }
+    }
+    private static EditorWindow GetTimelineWindow()
     {
         EditorWindow timelineWindow = null;
 
@@ -49,15 +67,8 @@ public class AutoLayoutProgram
                 if (window.GetType().Name.Contains("Timeline"))
                     timelineWindow = window;
         }
+        return timelineWindow;
 
-        if (timelineWindow != null)
-        {
-            Type timelineType = timelineWindow.GetType();
-            timelineWindow = EditorWindow.GetWindow(timelineType, false);
-
-            var setLockedMethod = timelineType.GetMethod("set_locked");
-            setLockedMethod.Invoke(timelineWindow, new object[] { true });
-        }
     }
 
     private static Type GetType(string fullname)

@@ -11,11 +11,23 @@ public class EnemyPreviewDrawer : System.IDisposable
     private Camera camera;
     private GameObject prefab;
     private GameObject instanceObject;
-    public RenderTexture renderTexture { get; private set; }
+    public RenderTexture renderTexture { 
+        get {
+            if (!_renderTextureData)
+            {
+                _renderTextureData = new RenderTexture(renderSize.x, renderSize.y, 24);
+                this.Render();
+            }
+            return _renderTextureData;
+        }
+        private set {
+            _renderTextureData = value;
+        } 
+    }
     private double previewTime;
 
     private Animator[] animators;
-
+    private RenderTexture _renderTextureData;
     private Vector2Int renderSize;
 
     public EnemyPreviewDrawer()
@@ -63,7 +75,7 @@ public class EnemyPreviewDrawer : System.IDisposable
         {
             var cameraObj = new GameObject("PrevCamera");
             cameraObj.hideFlags = hideFlag;
-            cameraObj.transform.position = new Vector3(0, 0, -3) + groundPos;
+            cameraObj.transform.position = new Vector3(0, 0, -2.5f) + groundPos;
             cameraObj.transform.rotation = Quaternion.identity;
             cameraObj.layer = PREVIEW_LAYER;
 

@@ -33,7 +33,7 @@ namespace TimelineExtention
         }
         public override void OnInspectorGUI()
         {
-            base.OnInspectorGUI();
+//            base.OnInspectorGUI();
             if (GUILayout.Button("敵を変更"))
             {
                 var window = EditorWindow.GetWindow<PopupSelectEnemy>();
