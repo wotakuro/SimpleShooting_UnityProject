@@ -8,7 +8,7 @@ using UnityEditor.SceneManagement;
 
 public class AutoLayoutProgram 
 {
-    [MenuItem("Tools/AutoLayout")]
+    [MenuItem("ツール/作業用レイアウトにする")]
     public static void FromMenu()
     {
         AutoLayout();

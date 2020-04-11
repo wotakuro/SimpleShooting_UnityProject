@@ -14,36 +14,53 @@ namespace TimelineExtention
     public class EnemySpawnTrackEditor : Editor
     {
 
+        private EnemyPreviewDrawer previewDrawer;
         Rect buttonRect;
+
+        void OnEnable()
+        {
+            previewDrawer = new EnemyPreviewDrawer();
+            EditorApplication.update += this.OnUpdate;
+        }
+        void OnDisable()
+        {
+            previewDrawer.Dispose();
+            EditorApplication.update -= this.OnUpdate;
+        }
+        void OnUpdate()
+        {
+            Repaint();
+        }
         public override void OnInspectorGUI()
         {
             base.OnInspectorGUI();
             if (GUILayout.Button("敵を変更"))
             {
-                var window = EditorWindow.CreateInstance<PopupSelectEnemy>();
+                var window = EditorWindow.GetWindow<PopupSelectEnemy>();
                 window.SetTargetClip(this.target as EnemySpawnTrack);
-                window.ShowAuxWindow();
+                window.Show();
             }
             if (Event.current.type == EventType.Repaint)
             {
                 buttonRect = GUILayoutUtility.GetLastRect();
             }
-            //            enemySpawn.enemyPrefab;
         }
         public override bool HasPreviewGUI()
         {
             //プレビュー表示できるものがあれば true を返す
             return true;
         }
+
         public override void OnPreviewGUI(Rect r, GUIStyle background)
         {
             base.OnPreviewGUI(r, background);
             var enemySpawn = target as EnemySpawnTrack;
-            var preview = AssetPreview.GetAssetPreview(enemySpawn.enemyPrefab);
-            if (preview != null)
-            {
-                EditorGUI.DrawPreviewTexture(r, preview);
-            }
+            previewDrawer.SetRenderSize((int)r.width, (int)r.height);
+            previewDrawer.SetPrefab(enemySpawn.enemyPrefab);
+            previewDrawer.Render();
+            EditorGUI.DrawPreviewTexture(r, previewDrawer.renderTexture);
+
         }
+
     }
 }

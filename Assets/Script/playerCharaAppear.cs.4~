@@ -1,0 +1,17 @@
+﻿using UnityEngine;
+using System.Collections;
+
+public class playerCharaAppear : MonoBehaviour {
+
+  public float materialPow = -1.5f;
+  private Renderer render;
+	// Use this for initialization
+	void Start () {
+      render = transform.Find( "Object005" ).gameObject.GetComponent<Renderer>();
+	}
+	
+	// Update is called once per frame
+	void Update () {
+      render.material.SetFloat("_LightPow", materialPow);
+	}
+}

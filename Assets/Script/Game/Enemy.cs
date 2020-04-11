@@ -5,6 +5,8 @@ public class Enemy : MonoBehaviour
 {
     public GameObject bombPrefab;
 
+    public bool isExplosion = true;
+
     private bool bombFlag = false;
     private float bombTimer = 0.0f;
 
@@ -119,13 +121,20 @@ public class Enemy : MonoBehaviour
 
     void Bomb()
     {
-        float radius = this.transform.localScale.magnitude * 1.8f;
-        Collider[] colliders = Physics.OverlapSphere(transform.position, radius, 1 << 8);
-        foreach (var hit in colliders)
+        // 誘爆ロジック
+        if (isExplosion)
         {
-            Enemy ene = hit.gameObject.GetComponent<Enemy>();
-            ene.SetBomb((hit.transform.position - transform.position).magnitude);
-            ene.addScore = 2;
+            float radius = this.transform.localScale.magnitude * 1.8f;
+            Collider[] colliders = Physics.OverlapSphere(transform.position, radius, 1 << 8);
+            foreach (var hit in colliders)
+            {
+                Enemy ene = hit.gameObject.GetComponent<Enemy>();
+                if (ene != this)
+                {
+                    ene.SetBomb((hit.transform.position - transform.position).magnitude);
+                    ene.addScore = this.addScore + 1;
+                }
+            }
         }
         //
         if (bombPrefab)
