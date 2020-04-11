@@ -8,11 +8,12 @@ using UnityEditor.SceneManagement;
 
 public class AutoLayoutProgram
 {
+    private static double startTryTime = 0;
+    private static double previewTryTime = 0;
     [MenuItem("ツール/作業用レイアウトにする")]
     public static void FromMenu()
     {
         AutoLayout();
-        EditorApplication.delayCall += SetupTimeline;
     }
 
     //    [UnityEditor.InitializeOnLoadMethod]
@@ -26,22 +27,70 @@ public class AutoLayoutProgram
         }
     }
 
+    public static void TryTimelineSelect()
+    {
+        double time = EditorApplication.timeSinceStartup;
+
+        bool result = false;
+        for (int i = 0; i < 10; ++i)
+        {
+            if (previewTryTime - startTryTime < 0.5 *i && 0.5 *i <= time - startTryTime)
+            {
+                if (i % 2 == 0)
+                {
+                    Selection.activeGameObject = null;
+                }
+                else
+                {
+                    result = SetupTimeline();
+                }
+            }
+        }
+
+        if ( result)
+        {
+            EditorApplication.update -= TryTimelineSelect;
+            previewTryTime = 0;
+            return;
+        }
+        if ( time - startTryTime > 10.0)
+        {
+            EditorApplication.update -= TryTimelineSelect;
+            previewTryTime = 0;
+            return;
+        }
+        previewTryTime = time;
+    }
 
 
     public static void AutoLayout()
     {
         EditorUtility.LoadWindowLayout("Assets/Editor/Resources/Timeline.wlt");
         EditorSceneManager.OpenScene("Assets/Scenes/game.unity");
+
+        startTryTime = EditorApplication.timeSinceStartup;
+        EditorApplication.update += TryTimelineSelect;
     }
 
-    public static void SetupTimeline(){
+    public static bool SetupTimeline(){
         var stageTimelines = Resources.FindObjectsOfTypeAll<StageTimeline>();
         if( stageTimelines != null && stageTimelines.Length > 0)
         {
             SetTimelineLock(false);
             Selection.activeGameObject = stageTimelines[0].gameObject;
-            SetTimelineLock(true);
+
+            if( IsTimelineWidowAvailable())
+            {
+                SetTimelineLock(true);
+                return true;
+            }
+            else
+            {
+                SetTimelineLock(false);
+                return false;
+            }
         }
+        return false;
     }
     private static void SetTimelineLock(bool flag)
     {
@@ -56,6 +105,25 @@ public class AutoLayoutProgram
             setLockedMethod.Invoke(timelineWindow, new object[] { flag });
         }
     }
+
+    private static bool IsTimelineWidowAvailable()
+    {
+        EditorWindow timelineWindow = GetTimelineWindow();
+        if(timelineWindow == null) { return false; }
+        var bindFlag = BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance;
+        // state.editSequence.asset
+        var stateProp = timelineWindow.GetType().GetProperty("state", bindFlag);
+        var editSeqProp =  stateProp.PropertyType.GetProperty("editSequence" ,bindFlag);
+        var assetProp = editSeqProp.PropertyType.GetProperty("asset", bindFlag);
+
+        var stateValue = stateProp.GetValue(timelineWindow);
+        if( stateValue == null) { return false; }
+        var editValue = editSeqProp.GetValue(stateValue);
+        if( editValue == null) { return false; }
+
+        return (assetProp.GetValue(editValue) != null);
+    }
+
     private static EditorWindow GetTimelineWindow()
     {
         EditorWindow timelineWindow = null;

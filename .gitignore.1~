@@ -58,6 +58,3 @@ sysinfo.txt
 # Crashlytics generated file
 crashlytics-build.properties
 
-# autogen
-Assets/Prefabs/Enemys/Generated/From2D/
-Assets/Prefabs/Enemys/Generated/FromPrefab/
