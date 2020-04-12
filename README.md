@@ -31,9 +31,6 @@ Unityで簡単な的当てゲームをつくるキットです。<br />
 <br />
 敵は8体分あります。他の敵も同じように見た目を変える事が出来ます。
 
-<br />
-こんな感じで四角形以外の敵も出るように出来ます<br />
-![gemePlaying]](docs/OriginalPicture.png)<br />
 
 ## 敵のタイミングを変えてみる
 ![Timeline_clip](docs/Timeline_Clip.png)<br />
