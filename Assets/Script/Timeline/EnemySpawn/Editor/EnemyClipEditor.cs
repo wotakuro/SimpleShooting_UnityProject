@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using UnityEngine.Playables;
+using System.Reflection;
 
 namespace TimelineExtention
 {
@@ -15,6 +17,9 @@ namespace TimelineExtention
         private bool startFlag;
         private bool endFlag;
 
+        private Camera startCamera;
+        private Camera endCamera;
+
         private void OnEnable()
         {
             var clip = target as EnemySpawnClip;
@@ -22,6 +27,118 @@ namespace TimelineExtention
             this.screenEndPoint = new Vector4(0, 0, clip.endPosition.z, 0);
             startFlag = true;
             endFlag = true;
+            this.InitCamera();
+        }
+
+        private void InitCamera()
+        {
+            // GetEditorClip.
+            GameObject timelineGmo = GameObject.Find("Timeline");
+            PlayableDirector timeline = null;
+            if (timelineGmo != null)
+            {
+                timeline = timelineGmo.GetComponent<PlayableDirector>();
+            }
+            double timelineStart, timelineEnd;
+
+            GetTimelineTrackPostion(out timelineStart, out timelineEnd);
+
+            // origin camera
+            var cameraGmo = GameObject.Find("MainCamera");
+            var originCamera = cameraGmo.GetComponent<Camera>();
+
+
+            //end
+            if( timelineEnd >= 0.0)
+            {
+                timeline.time = timelineEnd;
+                timeline.RebuildGraph();
+                timeline.Evaluate();
+            }
+            var endCameraGmo = new GameObject();
+            this.endCamera = endCameraGmo.AddComponent<Camera>();
+            SetupCamera(this.endCamera, originCamera);
+
+
+            // start
+            if (timelineStart >= 0.0)
+            {
+                timeline.time = timelineStart;
+                timeline.RebuildGraph();
+                timeline.Evaluate();
+            }
+            var startCameraGmo = new GameObject();
+            this.startCamera = startCameraGmo.AddComponent<Camera>();
+            SetupCamera(this.startCamera, originCamera);
+        }
+
+        private void GetTimelineTrackPostion(out double start , out double end)
+        {
+            start = -1.0;
+            end = -1.0;
+
+            var obj = UnityEditor.Selection.activeObject;
+            if(obj == null) { 
+                return;
+            }
+
+            BindingFlags flags = BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance;
+            var clipField = obj.GetType().GetField("m_Clip", flags);
+            if (clipField == null)
+            {
+                return;
+            }
+            var clipValue = clipField.GetValue(obj);
+            if( clipValue == null) {
+                return;
+            }
+
+            FieldInfo startField = clipField.FieldType.GetField("m_Start", flags); ;
+            FieldInfo durationField = clipField.FieldType.GetField("m_Duration", flags); ;
+
+            if( startField == null) { 
+                return; 
+            }
+
+            start = (double)startField.GetValue(clipValue);
+            if (durationField != null)
+            {
+                end = (double)durationField.GetValue(clipValue) + start;
+            }
+
+        }
+
+        private void SetupCamera(Camera dest,Camera src)
+        {
+            dest.gameObject.hideFlags = HideFlags.HideAndDontSave;
+            dest.cullingMask = 0;
+            dest.clearFlags = CameraClearFlags.Nothing;
+            dest.orthographic = src.orthographic;
+            if (dest.orthographic)
+            {
+                dest.orthographicSize = src.orthographicSize;
+            }
+            else
+            {
+                dest.fieldOfView = src.fieldOfView;
+            }
+            dest.nearClipPlane = src.nearClipPlane;
+            dest.farClipPlane = src.farClipPlane;
+            dest.enabled = false;
+            dest.transform.position = src.transform.position;
+            dest.transform.rotation = src.transform.rotation;
+        }
+
+        private void OnDisable()
+        {
+            if (startCamera)
+            {
+                GameObject.DestroyImmediate(startCamera.gameObject);
+            }
+            if (endCamera)
+            {
+                GameObject.DestroyImmediate(endCamera.gameObject);
+            }
         }
 
         public override void OnInspectorGUI()
@@ -35,21 +152,19 @@ namespace TimelineExtention
 
             var clip = target as EnemySpawnClip;
 
-            var cameraGmo = GameObject.Find("MainCamera");
-            var camera = cameraGmo.GetComponent<Camera>();
             bool isApply = false;
 
             startFlag = EditorGUILayout.Foldout(startFlag,"開始位置");
             if (startFlag)
             {
-                isApply |= OnGUIPositionInfo(mouseInfo, camera, ref clip.startPosition,
+                isApply |= OnGUIPositionInfo(mouseInfo, this.startCamera, ref clip.startPosition,
                     ref screenStartPoint, ref requireRepaint);
             }
 
             endFlag = EditorGUILayout.Foldout(endFlag, "終了位置");
             if (endFlag)
             {
-                isApply |= OnGUIPositionInfo(mouseInfo, camera, ref clip.endPosition,
+                isApply |= OnGUIPositionInfo(mouseInfo, this.endCamera, ref clip.endPosition,
                     ref screenEndPoint, ref requireRepaint);
             }
 
@@ -63,12 +178,17 @@ namespace TimelineExtention
             {
                 this.Repaint();
             }
+
         }
 
         private bool OnGUIPositionInfo(Vector3 mouseInfo,Camera camera ,ref Vector3 originPos,
             ref Vector4 screenNewPoint ,ref bool requireRepaint)
         {
-            var screenOriginPoint = camera.WorldToViewportPoint(originPos);
+            var screenOriginPoint = Vector3.zero;
+            if (camera != null)
+            {
+                screenOriginPoint = camera.WorldToViewportPoint(originPos);
+            }
             EditorGUILayout.BeginVertical();
             var newPos = EditorGUILayout.Vector3Field("座標", originPos);
             var rect = EditorGUILayout.GetControlRect(GUILayout.Height(150), GUILayout.Width(250));
@@ -78,7 +198,7 @@ namespace TimelineExtention
             }
             EditorGUILayout.LabelField("奥行き");
             screenNewPoint.z = EditorGUILayout.Slider(screenNewPoint.z, 3.0f, 150.0f, GUILayout.Width(250));
-            if (GUILayout.Button("ココにする", GUILayout.Width(100)))
+            if (GUILayout.Button("ココにする", GUILayout.Width(100)) && camera != null)
             {
                 newPos = camera.ViewportToWorldPoint(screenNewPoint);
             }
