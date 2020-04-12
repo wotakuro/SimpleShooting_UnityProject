@@ -9,10 +9,125 @@ namespace TimelineExtention
     [CustomEditor(typeof(EnemySpawnClip))]
     public class EnemyClipEditor : Editor
     {
+        private Vector4 screenStartPoint;
+        private Vector4 screenEndPoint;
+
+        private bool startFlag;
+        private bool endFlag;
+
+        private void OnEnable()
+        {
+            var clip = target as EnemySpawnClip;
+            this.screenStartPoint = new Vector4(0, 0, clip.startPosition.z, 0);
+            this.screenEndPoint = new Vector4(0, 0, clip.endPosition.z, 0);
+            startFlag = true;
+            endFlag = true;
+        }
 
         public override void OnInspectorGUI()
         {
-            base.OnInspectorGUI();
+//            base.OnInspectorGUI();
+
+            bool requireRepaint = false;
+            var mousePos = Event.current.mousePosition;
+            Vector3 mouseInfo = new Vector3( mousePos.x,mousePos.y,
+                (Event.current.isMouse)?1.0f:0.0f);
+
+            var clip = target as EnemySpawnClip;
+
+            var cameraGmo = GameObject.Find("MainCamera");
+            var camera = cameraGmo.GetComponent<Camera>();
+            bool isApply = false;
+
+            startFlag = EditorGUILayout.Foldout(startFlag,"開始位置");
+            if (startFlag)
+            {
+                isApply |= OnGUIPositionInfo(mouseInfo, camera, ref clip.startPosition,
+                    ref screenStartPoint, ref requireRepaint);
+            }
+
+            endFlag = EditorGUILayout.Foldout(endFlag, "終了位置");
+            if (endFlag)
+            {
+                isApply |= OnGUIPositionInfo(mouseInfo, camera, ref clip.endPosition,
+                    ref screenEndPoint, ref requireRepaint);
+            }
+
+
+            if(isApply)
+            {
+                EditorUtility.SetDirty(clip);
+            }
+
+            if (requireRepaint)
+            {
+                this.Repaint();
+            }
+        }
+
+        private bool OnGUIPositionInfo(Vector3 mouseInfo,Camera camera ,ref Vector3 originPos,
+            ref Vector4 screenNewPoint ,ref bool requireRepaint)
+        {
+            var screenOriginPoint = camera.WorldToViewportPoint(originPos);
+            EditorGUILayout.BeginVertical();
+            var newPos = EditorGUILayout.Vector3Field("座標", originPos);
+            var rect = EditorGUILayout.GetControlRect(GUILayout.Height(150), GUILayout.Width(250));
+            {
+                var startRect = new Rect(rect.x + 25, rect.y + 10, 240, 135);
+                DrawRect(startRect, mouseInfo, screenOriginPoint, ref screenNewPoint, ref requireRepaint);
+            }
+            EditorGUILayout.LabelField("奥行き");
+            screenNewPoint.z = EditorGUILayout.Slider(screenNewPoint.z, 3.0f, 150.0f, GUILayout.Width(250));
+            if (GUILayout.Button("ココにする", GUILayout.Width(100)))
+            {
+                newPos = camera.ViewportToWorldPoint(screenNewPoint);
+            }
+            EditorGUILayout.EndVertical();
+
+            bool flag= (newPos != originPos);
+            originPos = newPos;
+            return flag;
+        }
+
+        private void DrawRect( Rect r, Vector3 mouseInfo,
+            Vector3 originScreenPoint,
+            ref Vector4 newScreenPoint,ref bool requireRepaint)
+        {
+
+            EditorGUI.DrawRect(new Rect(r.x-5,r.y-5,r.width+10,r.height+10), new Color(0.8f,0.8f,0.8f));
+            EditorGUI.DrawRect(r, Color.white);
+
+            Vector2 menuOriginPoint = new Vector2( r.x + r.width * originScreenPoint.x,
+                r.y + r.height * (1.0f - originScreenPoint.y));
+
+            menuOriginPoint.x = Mathf.Clamp(menuOriginPoint.x, r.x, r.x + r.width);
+            menuOriginPoint.y = Mathf.Clamp(menuOriginPoint.y, r.y, r.y + r.height);
+
+
+            if( mouseInfo.z >= 0.99f)
+            {
+                if(r.x <= mouseInfo.x && mouseInfo.x <= r.x + r.width)
+                {
+                    if (r.y <= mouseInfo.y && mouseInfo.y <= r.y + r.height)
+                    {
+                        newScreenPoint.x = (mouseInfo.x - r.x) / r.width;
+                        newScreenPoint.y = 1.0f - ((mouseInfo.y - r.y) / r.height);
+                        newScreenPoint.w = 1.0f;
+                        requireRepaint = true;
+                    }
+                }
+            }
+            // blue
+            if( newScreenPoint.w >= 0.99f)
+            {
+                Vector2 menuNewPoint = new Vector2(r.x + r.width * newScreenPoint.x,
+                    r.y + r.height * (1.0f - newScreenPoint.y));
+                EditorGUI.DrawRect(new Rect(menuNewPoint.x - 5, menuNewPoint.y - 1, 10, 2), Color.blue);
+                EditorGUI.DrawRect(new Rect(menuNewPoint.x - 1, menuNewPoint.y - 5, 2, 10), Color.blue);
+            }
+            // origin
+            EditorGUI.DrawRect(new Rect(menuOriginPoint.x - 5, menuOriginPoint.y - 1, 10, 2), Color.red);
+            EditorGUI.DrawRect(new Rect(menuOriginPoint.x - 1, menuOriginPoint.y - 5, 2, 10), Color.red);
         }
     }
 }
