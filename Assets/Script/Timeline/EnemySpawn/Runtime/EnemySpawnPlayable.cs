@@ -28,7 +28,6 @@ namespace TimelineExtention
 #endif
                 enemy = instanceGmo.GetComponent<Enemy>();
                 enemy.SetPosition(startPosition, endPosition);
-                instanceGmo.transform.LookAt(Vector3.zero);
                 instanceGmo.SetActive(false);
             }
         }

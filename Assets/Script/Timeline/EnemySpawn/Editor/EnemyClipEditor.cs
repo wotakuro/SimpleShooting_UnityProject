@@ -28,6 +28,16 @@ namespace TimelineExtention
             startFlag = true;
             endFlag = true;
             this.InitCamera();
+            if (this.startCamera != null)
+            {
+                var point = this.startCamera.WorldToViewportPoint(clip.startPosition);
+                this.screenStartPoint = new Vector4(point.x,point.y,point.z,0.0f);
+            }
+            if (this.endCamera != null)
+            {
+                var point = this.endCamera.WorldToViewportPoint(clip.endPosition);
+                this.screenEndPoint = new Vector4(point.x, point.y, point.z, 0.0f);
+            }
         }
 
         private void InitCamera()

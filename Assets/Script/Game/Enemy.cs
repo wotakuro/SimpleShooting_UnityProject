@@ -34,6 +34,9 @@ public class Enemy : MonoBehaviour
 
         this.startPosition = startPos;
         this.endPosition = endPos;
+
+        this.transform.LookAt(endPos);
+
 	}
 	
 	// Update is called once per frame
