@@ -9,6 +9,10 @@ public class BulletManager : MonoBehaviour
         Normal,
         MachinGun
     }
+    public AudioClip noGunAudio;
+    public AudioClip normalGunAudio;
+    public AudioClip machineGunAudio;
+
 
     public GameObject bulletPrefab;
 
@@ -44,12 +48,15 @@ public class BulletManager : MonoBehaviour
             {
                 case PlayerMode.Non:
                     materialPropertyBlock.SetColor("_Color", Color.black);
+                    if (noGunAudio) { AudioSource.PlayClipAtPoint(noGunAudio, transform.position); }
                     break;
                 case PlayerMode.Normal:
                     materialPropertyBlock.SetColor("_Color", Color.white);
+                    if (normalGunAudio) { AudioSource.PlayClipAtPoint(normalGunAudio, transform.position); }
                     break;
                 case PlayerMode.MachinGun:
                     materialPropertyBlock.SetColor("_Color", Color.red);
+                    if (machineGunAudio) { AudioSource.PlayClipAtPoint(machineGunAudio, transform.position); }
                     break;
             }
             target.SetPropertyBlock(materialPropertyBlock);
