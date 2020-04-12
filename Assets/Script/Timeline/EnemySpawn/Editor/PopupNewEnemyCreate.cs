@@ -71,6 +71,10 @@ namespace TimelineExtention
             {
                 return false;
             }
+            if (path.StartsWith("Assets/3rdParty/"))
+            {
+                return false;
+            }
             if (path.StartsWith("Assets/Prefabs/Enemys/"))
             {
                 return false;
