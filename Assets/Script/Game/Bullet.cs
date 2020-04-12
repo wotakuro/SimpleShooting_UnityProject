@@ -19,7 +19,7 @@ public class Bullet : MonoBehaviour {
         Ray ray = new Ray(transform.position - moved, moved * 2.0f);
         RaycastHit hitInfo;
 
-        if (Physics.Raycast(ray, out hitInfo, moved.magnitude * 2.0f,1<<8))
+        if (Physics.Raycast(ray, out hitInfo, moved.magnitude * 2.0f,1<<Enemy.LAYER))
         {
             // 敵にヒットしたことを伝えます
             var enemy = hitInfo.transform.gameObject.GetComponent<Enemy>();

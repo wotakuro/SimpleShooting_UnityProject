@@ -3,6 +3,7 @@ using System.Collections;
 
 public class Enemy : MonoBehaviour
 {
+    public static readonly int LAYER = 8;
     private static readonly Color whiteCol = new Color(1.0f, 1.0f, 1.0f, 1.0f);
     private static readonly Color redCol = new Color(1.0f, 0.0f, 0.0f, 0.8f);
     private static readonly Color blackCol = new Color(0.0f, 0.0f, 0.0f, 0.0f);
@@ -133,13 +134,17 @@ public class Enemy : MonoBehaviour
     {
         float beginSmallerStart = length - 0.5f;
 
-        if (timer < beginSmallerStart)
+        if( timer < 0.5f)
         {
-            this.transform.localScale = Vector3.one * Mathf.Sqrt(timer);
+            this.transform.localScale = Vector3.one * timer * 2.0f;
+        }
+        else if (timer > beginSmallerStart)
+        {
+            this.transform.localScale = Vector3.one * (( length - timer) *2.0f);
         }
         else
         {
-            this.transform.localScale = Vector3.one * (Mathf.Sqrt(beginSmallerStart) * ((length - timer) * 2.0f));
+            this.transform.localScale = Vector3.one;
         }
     }
 
@@ -163,8 +168,8 @@ public class Enemy : MonoBehaviour
         // 誘爆ロジック
         if (isExplosion)
         {
-            float radius = this.transform.localScale.magnitude * 1.8f;
-            Collider[] colliders = Physics.OverlapSphere(transform.position, radius, 1 << 8);
+            float radius = this.transform.localScale.magnitude * 2.8f;
+            Collider[] colliders = Physics.OverlapSphere(transform.position, radius, 1 << LAYER);
             foreach (var hit in colliders)
             {
                 Enemy ene = hit.gameObject.GetComponent<Enemy>();

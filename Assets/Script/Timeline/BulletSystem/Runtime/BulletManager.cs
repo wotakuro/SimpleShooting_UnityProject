@@ -3,12 +3,17 @@ using System.Collections;
 
 public class BulletManager : MonoBehaviour
 {
-    public enum PlayerMode
+    public enum PlayerMode :int
     {
-        Non,
-        Normal,
-        MachinGun
+        Non=0 ,
+        Normal = 1, 
+        MachinGun = 2
     }
+    public static readonly string[] PlayModeText ={
+        "撃てません",
+        "普通のガン",
+        "マシンガン"
+    };
     public AudioClip noGunAudio;
     public AudioClip normalGunAudio;
     public AudioClip machineGunAudio;
@@ -25,6 +30,11 @@ public class BulletManager : MonoBehaviour
     private float btnTime = 0.0f;
 
     private MaterialPropertyBlock materialPropertyBlock;
+
+    public void SetPlayMode(PlayerMode mode)
+    {
+        this.playMode = mode;
+    }
 
     void Start()
     {
