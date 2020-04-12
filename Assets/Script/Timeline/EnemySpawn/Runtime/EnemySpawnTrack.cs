@@ -24,6 +24,9 @@ namespace TimelineExtention
         protected override void OnCreateClip(TimelineClip clip)
         {
             clip.displayName = "敵出現";
+            var clipData = clip.asset as EnemySpawnClip;
+            clipData.startPosition = new Vector3(0, 0, 100);
+            clipData.endPosition = new Vector3(0, 0, 10);
         }
 
         protected override Playable CreatePlayable(PlayableGraph graph, GameObject gameObject, TimelineClip clip)
