@@ -208,7 +208,7 @@ namespace TimelineExtention
                 DrawRect(startRect, mouseInfo, screenOriginPoint, ref screenNewPoint, ref requireRepaint);
             }
             EditorGUILayout.LabelField("奥行き");
-            screenNewPoint.z = EditorGUILayout.Slider(screenNewPoint.z, 3.0f, 150.0f, GUILayout.Width(250));
+            screenNewPoint.z = EditorGUILayout.Slider(screenNewPoint.z, 1.0f, 150.0f, GUILayout.Width(250));
             if (GUILayout.Button("ココにする", GUILayout.Width(100)) && camera != null)
             {
                 newPos = camera.ViewportToWorldPoint(screenNewPoint);
