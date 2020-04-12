@@ -33,7 +33,7 @@ Unityで簡単な的当てゲームをつくるキットです。<br />
 
 <br />
 こんな感じで四角形以外の敵も出るように出来ます<br />
-![game](docs/OriginalPicture.png) 
+![gemePlaying]](docs/OriginalPicture.png)<br />
 
 ## 敵のタイミングを変えてみる
 ![Timeline_clip](docs/Timeline_Clip.png)<br />
