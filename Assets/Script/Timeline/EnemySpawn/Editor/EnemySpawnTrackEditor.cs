@@ -15,7 +15,6 @@ namespace TimelineExtention
     {
 
         private EnemyPreviewDrawer previewDrawer;
-        Rect buttonRect;
 
         void OnEnable()
         {
@@ -33,17 +32,31 @@ namespace TimelineExtention
         }
         public override void OnInspectorGUI()
         {
-//            base.OnInspectorGUI();
-            if (GUILayout.Button("敵を変更"))
+            EnemySpawnTrack enemySpawnTrack = this.target as EnemySpawnTrack;
+
+
+            bool newExplode = EditorGUILayout.Toggle("爆発した時、巻き込むか", enemySpawnTrack.explodeFlag);
+            bool newColor   = EditorGUILayout.Toggle("時間による色変更(2Dのみ)", enemySpawnTrack.colorFlag);
+            bool newSize    = EditorGUILayout.Toggle("時間による大きさ変更", enemySpawnTrack.sizeFlag);
+            //            base.OnInspectorGUI();
+            if (GUILayout.Button("敵の見た目を変更"))
             {
                 var window = EditorWindow.GetWindow<PopupSelectEnemy>();
-                window.SetTargetClip(this.target as EnemySpawnTrack);
+                window.SetTargetTrack(enemySpawnTrack);
                 window.Show();
             }
-            if (Event.current.type == EventType.Repaint)
+
+            if(newExplode != enemySpawnTrack.explodeFlag || 
+                newColor != enemySpawnTrack.colorFlag ||
+                newSize != enemySpawnTrack.sizeFlag )
             {
-                buttonRect = GUILayoutUtility.GetLastRect();
+                enemySpawnTrack.explodeFlag = newExplode;
+                enemySpawnTrack.colorFlag = newColor;
+                enemySpawnTrack.sizeFlag = newSize;
+                EditorUtility.SetDirty(this);
             }
+
+
         }
         public override bool HasPreviewGUI()
         {

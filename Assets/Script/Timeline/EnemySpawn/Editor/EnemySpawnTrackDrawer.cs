@@ -30,6 +30,10 @@ namespace TimelineExtention
             }
             var option = new TrackDrawOptions();
             var enemyTrack = track as EnemySpawnTrack;
+            if (!drawer.renderTexture || !drawer.renderTexture.IsCreated() )
+            {
+                prefab = null;
+            }
             if (prefab != enemyTrack.enemyPrefab && enemyTrack.enemyPrefab != null)
             {
                 drawer.SetPrefab(enemyTrack.enemyPrefab);

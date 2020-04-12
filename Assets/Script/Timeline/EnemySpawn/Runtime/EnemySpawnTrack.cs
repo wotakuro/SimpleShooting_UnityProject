@@ -10,6 +10,14 @@ namespace TimelineExtention
 
         [SerializeField]
         public GameObject enemyPrefab;
+        [SerializeField]
+        public bool explodeFlag = true;
+        [SerializeField]
+        public bool sizeFlag = true;
+        [SerializeField]
+        public bool colorFlag = true;
+
+
 #if UNITY_EDITOR
         private PlayableDirector playableDirector;
 #endif
@@ -21,7 +29,10 @@ namespace TimelineExtention
         protected override Playable CreatePlayable(PlayableGraph graph, GameObject gameObject, TimelineClip clip)
         {
             EnemySpawnClip enemyClip = clip.asset as EnemySpawnClip;
-            enemyClip.prefab = this.enemyPrefab;
+            enemyClip.enemyPrefab = this.enemyPrefab;
+            enemyClip.explodeFlag = this.explodeFlag;
+            enemyClip.sizeFlag = this.sizeFlag;
+            enemyClip.colorFlag = this.colorFlag;
 #if UNITY_EDITOR
             this.playableDirector = gameObject.GetComponent<PlayableDirector>();
 #endif            

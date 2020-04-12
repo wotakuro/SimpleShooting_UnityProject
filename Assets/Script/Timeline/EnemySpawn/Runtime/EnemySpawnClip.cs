@@ -19,18 +19,22 @@ namespace TimelineExtention
 			get { return ClipCaps.None; }
 		}
 
-        public GameObject prefab
+        public GameObject enemyPrefab
         {
             get;set;
         }
+        public bool explodeFlag { get; set; }
+        public bool sizeFlag { get; set; }
+        public bool colorFlag { get; set; }
+
         public override Playable CreatePlayable(PlayableGraph graph, GameObject owner)
         {
-
             var playable = ScriptPlayable<EnemySpawnPlayable>.Create(graph);
 
             var behaviour = playable.GetBehaviour();
-            behaviour.SetEnemyPrefab( prefab , startPosition,endPosition);
-			return playable;   
+            behaviour.InitEnemyFromPrefab( enemyPrefab , startPosition,endPosition);
+            behaviour.SetEnemyFlags(explodeFlag, sizeFlag, colorFlag);
+            return playable;   
 		}
 	}
 }

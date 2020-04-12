@@ -15,7 +15,7 @@ namespace TimelineExtention
         private EnemySpawnTrack targetTrack;
         private Vector2 scroll;
 
-        public void SetTargetClip(EnemySpawnTrack target)
+        public void SetTargetTrack(EnemySpawnTrack target)
         {
             this.targetTrack = target;
         }

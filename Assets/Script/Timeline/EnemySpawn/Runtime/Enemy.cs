@@ -3,9 +3,11 @@ using System.Collections;
 
 public class Enemy : MonoBehaviour
 {
-    public GameObject bombPrefab;
+    private static readonly Color whiteCol = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+    private static readonly Color redCol = new Color(1.0f, 0.0f, 0.0f, 0.8f);
+    private static readonly Color blackCol = new Color(0.0f, 0.0f, 0.0f, 0.0f);
 
-    public bool isExplosion = true;
+    public GameObject bombPrefab;
 
     private bool bombFlag = false;
     private float bombTimer = 0.0f;
@@ -13,20 +15,24 @@ public class Enemy : MonoBehaviour
     private float timer = 0.0f;
 
     private int addScore = 1;
-    private Renderer[] renders;
-    private MaterialPropertyBlock materialPropertyBlock;
+    private SpriteRenderer spriteRenderer;
     private int colorProp;
-
+    // Timelineから設定される項目
+    private bool isExplosion = true;
+    private bool isSizeChange = true;
+    private bool isColorChange = true;
     private Vector3 startPosition;
     private Vector3 endPosition;
-    private Color whiteCol = new Color(1.0f, 1.0f, 1.0f, 1.0f);
-    private Color redCol = new Color(1.0f, 0.0f, 0.0f, 0.8f);
-    private Color blackCol = new Color(0.0f, 0.0f, 0.0f, 0.0f);
+
 
 #if UNITY_EDITOR
     private Animator animator;
 #endif
 
+    private void Awake()
+    {
+        spriteRenderer = this.GetComponentInChildren<SpriteRenderer>();
+    }
 
     // Use this for initialization
     public void SetPosition (Vector3 startPos,Vector3 endPos) {
@@ -36,8 +42,13 @@ public class Enemy : MonoBehaviour
         this.endPosition = endPos;
 
         this.transform.LookAt(endPos);
-
 	}
+    public void SetFlags(bool explosion,bool size,bool color )
+    {
+        this.isExplosion = explosion;
+        this.isSizeChange = size;
+        this.isColorChange = color;
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -46,21 +57,23 @@ public class Enemy : MonoBehaviour
             bombTimer -= Time.deltaTime;
             if (bombTimer < 0)
             {
-                Bomb();
+                Die();
             }
         }
 	}
 
+    public void TimeStart()
+    {
+        this.gameObject.SetActive(true);
+    }
+
+    public void TimeOver()
+    {
+        this.gameObject.SetActive(false);
+    }
+
     public void SetTime(float tm,float length)
     {
-        if(this &&  this.renders == null)
-        {
-            this.renders = this.GetComponentsInChildren<Renderer>();
-            if(this.renders == null) { this.renders = new Renderer[0]; }
-            this.materialPropertyBlock = new MaterialPropertyBlock();
-            colorProp = Shader.PropertyToID("_Color");
-        }
-
 #if UNITY_EDITOR
         if (!UnityEditor.EditorApplication.isPlaying)
         {
@@ -75,32 +88,50 @@ public class Enemy : MonoBehaviour
             }
         }
 #endif
-        
+        // 座標移動
         this.transform.position = Vector3.Lerp(startPosition, endPosition, tm / length);
+        // 色チェンジ
+        if (isColorChange)
+        {
+            SetSpriteColorByTime(timer, length);
+        }
 
-        float beginSmallerStart = length - 0.5f;
+        // サイズ変更
+        if (isSizeChange)
+        {
+            SetSizeByTime(timer, length);
+        }
         timer = tm;
+    }
+
+    private void SetSpriteColorByTime(float timer,float length)
+    {
+        float beginSmallerStart = length - 0.5f;
         float normalTime = length - 1.7f;
+        Color color = Color.white;
         if (timer < normalTime)
         {
-            materialPropertyBlock.SetColor(colorProp, whiteCol);
+            color = whiteCol;
         }
         else if (timer < beginSmallerStart)
         {
-            float tmpP = (timer - normalTime) / (beginSmallerStart- normalTime);
-            materialPropertyBlock.SetColor( colorProp , Color.Lerp(whiteCol, redCol, tmpP));
+            float tmpP = (timer - normalTime) / (beginSmallerStart - normalTime);
+            color = Color.Lerp(whiteCol, redCol, tmpP);
         }
         else if (timer < length)
         {
-            materialPropertyBlock.SetColor(colorProp, Color.Lerp(redCol, blackCol, Mathf.Clamp01((timer - 4.5f) * 3.0f)));
+            color = Color.Lerp(redCol, blackCol, Mathf.Clamp01((timer - 4.5f) * 3.0f));
         }
-        foreach (var render in this.renders)
+        if (spriteRenderer)
         {
-            if (render)
-            {
-                //render.SetPropertyBlock(this.materialPropertyBlock);
-            }
+            spriteRenderer.color = color;
         }
+
+    }
+
+    private void SetSizeByTime(float timer,float length)
+    {
+        float beginSmallerStart = length - 0.5f;
 
         if (timer < beginSmallerStart)
         {
@@ -112,7 +143,7 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    public void SetBomb(float distance) {
+    private void SetBomb(float distance) {
         if (bombFlag)
         {
             return;
@@ -121,8 +152,13 @@ public class Enemy : MonoBehaviour
         bombTimer = Mathf.Sqrt( distance ) * 0.2f;
     }
 
+    public void OnHitBullet()
+    {
+        Die();
+    }
 
-    void Bomb()
+    // 死亡時処理
+    private void Die()
     {
         // 誘爆ロジック
         if (isExplosion)
@@ -138,16 +174,14 @@ public class Enemy : MonoBehaviour
                     ene.addScore = this.addScore + 1;
                 }
             }
+            if (bombPrefab)
+            {
+                GameObject obj = Instantiate(bombPrefab, transform.position, transform.rotation) as GameObject;
+                TimerDisappear timer = obj.AddComponent<TimerDisappear>();
+                timer.limitSecond = 1.0f;
+            }
         }
         //
-        if (bombPrefab)
-        {
-            GameObject obj = Instantiate(bombPrefab, transform.position, transform.rotation) as GameObject;
-            //        scaler.particleScale = transform.localScale.magnitude * 0.4f;
-
-            TimerDisappear timer = obj.AddComponent<TimerDisappear>();
-            timer.limitSecond = 1.0f;
-        }
         ScoreSystem.AddScore(addScore );
         Destroy(this.gameObject);
     }

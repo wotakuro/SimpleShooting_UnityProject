@@ -1,119 +1,307 @@
 fileFormatVersion: 2
 guid: 97cd899cd9369b2468f25810d390aed0
-timeCreated: 1460108778
-licenseType: Pro
 ModelImporter:
-  serializedVersion: 19
-  fileIDToRecycleName:
-    100000: GeoRoot
-    100002: Head
-    100004: Hips
-    100006: Jaw
-    100008: LeftArm
-    100010: LeftEye
-    100012: LeftFoot
-    100014: LeftForeArm
-    100016: LeftHand
-    100018: LeftLeg
-    100020: LeftRibbon1
-    100022: LeftRibbon2
-    100024: LeftShoulder
-    100026: LeftSusoBack
-    100028: LeftSusoFront
-    100030: LeftTale1
-    100032: LeftTale2
-    100034: LeftTale3
-    100036: LeftTale4
-    100038: LeftUptLeg
-    100040: Neck
-    100042: //RootNode
-    100044: PC01_Kohaku
-    100046: Reference
-    100048: RightArm
-    100050: RightEye
-    100052: RightFoot
-    100054: RightForeArm
-    100056: RightHand
-    100058: RightLeg
-    100060: RightRibbon1
-    100062: RightRibbon2
-    100064: RightShoulder
-    100066: RightSusoBack
-    100068: RightSusoFront
-    100070: RightTale1
-    100072: RightTale2
-    100074: RightTale3
-    100076: RightTale4
-    100078: RightUpLeg
-    100080: Spine
-    100082: Spine1
-    100084: Spine2
-    400000: GeoRoot
-    400002: Head
-    400004: Hips
-    400006: Jaw
-    400008: LeftArm
-    400010: LeftEye
-    400012: LeftFoot
-    400014: LeftForeArm
-    400016: LeftHand
-    400018: LeftLeg
-    400020: LeftRibbon1
-    400022: LeftRibbon2
-    400024: LeftShoulder
-    400026: LeftSusoBack
-    400028: LeftSusoFront
-    400030: LeftTale1
-    400032: LeftTale2
-    400034: LeftTale3
-    400036: LeftTale4
-    400038: LeftUptLeg
-    400040: Neck
-    400042: //RootNode
-    400044: PC01_Kohaku
-    400046: Reference
-    400048: RightArm
-    400050: RightEye
-    400052: RightFoot
-    400054: RightForeArm
-    400056: RightHand
-    400058: RightLeg
-    400060: RightRibbon1
-    400062: RightRibbon2
-    400064: RightShoulder
-    400066: RightSusoBack
-    400068: RightSusoFront
-    400070: RightTale1
-    400072: RightTale2
-    400074: RightTale3
-    400076: RightTale4
-    400078: RightUpLeg
-    400080: Spine
-    400082: Spine1
-    400084: Spine2
-    4300000: PC01_Kohaku
-    9500000: //RootNode
-    13700000: PC01_Kohaku
+  serializedVersion: 19300
+  internalIDToNameTable:
+  - first:
+      1: 100000
+    second: GeoRoot
+  - first:
+      1: 100002
+    second: Head
+  - first:
+      1: 100004
+    second: Hips
+  - first:
+      1: 100006
+    second: Jaw
+  - first:
+      1: 100008
+    second: LeftArm
+  - first:
+      1: 100010
+    second: LeftEye
+  - first:
+      1: 100012
+    second: LeftFoot
+  - first:
+      1: 100014
+    second: LeftForeArm
+  - first:
+      1: 100016
+    second: LeftHand
+  - first:
+      1: 100018
+    second: LeftLeg
+  - first:
+      1: 100020
+    second: LeftRibbon1
+  - first:
+      1: 100022
+    second: LeftRibbon2
+  - first:
+      1: 100024
+    second: LeftShoulder
+  - first:
+      1: 100026
+    second: LeftSusoBack
+  - first:
+      1: 100028
+    second: LeftSusoFront
+  - first:
+      1: 100030
+    second: LeftTale1
+  - first:
+      1: 100032
+    second: LeftTale2
+  - first:
+      1: 100034
+    second: LeftTale3
+  - first:
+      1: 100036
+    second: LeftTale4
+  - first:
+      1: 100038
+    second: LeftUptLeg
+  - first:
+      1: 100040
+    second: Neck
+  - first:
+      1: 100042
+    second: //RootNode
+  - first:
+      1: 100044
+    second: PC01_Kohaku
+  - first:
+      1: 100046
+    second: Reference
+  - first:
+      1: 100048
+    second: RightArm
+  - first:
+      1: 100050
+    second: RightEye
+  - first:
+      1: 100052
+    second: RightFoot
+  - first:
+      1: 100054
+    second: RightForeArm
+  - first:
+      1: 100056
+    second: RightHand
+  - first:
+      1: 100058
+    second: RightLeg
+  - first:
+      1: 100060
+    second: RightRibbon1
+  - first:
+      1: 100062
+    second: RightRibbon2
+  - first:
+      1: 100064
+    second: RightShoulder
+  - first:
+      1: 100066
+    second: RightSusoBack
+  - first:
+      1: 100068
+    second: RightSusoFront
+  - first:
+      1: 100070
+    second: RightTale1
+  - first:
+      1: 100072
+    second: RightTale2
+  - first:
+      1: 100074
+    second: RightTale3
+  - first:
+      1: 100076
+    second: RightTale4
+  - first:
+      1: 100078
+    second: RightUpLeg
+  - first:
+      1: 100080
+    second: Spine
+  - first:
+      1: 100082
+    second: Spine1
+  - first:
+      1: 100084
+    second: Spine2
+  - first:
+      4: 400000
+    second: GeoRoot
+  - first:
+      4: 400002
+    second: Head
+  - first:
+      4: 400004
+    second: Hips
+  - first:
+      4: 400006
+    second: Jaw
+  - first:
+      4: 400008
+    second: LeftArm
+  - first:
+      4: 400010
+    second: LeftEye
+  - first:
+      4: 400012
+    second: LeftFoot
+  - first:
+      4: 400014
+    second: LeftForeArm
+  - first:
+      4: 400016
+    second: LeftHand
+  - first:
+      4: 400018
+    second: LeftLeg
+  - first:
+      4: 400020
+    second: LeftRibbon1
+  - first:
+      4: 400022
+    second: LeftRibbon2
+  - first:
+      4: 400024
+    second: LeftShoulder
+  - first:
+      4: 400026
+    second: LeftSusoBack
+  - first:
+      4: 400028
+    second: LeftSusoFront
+  - first:
+      4: 400030
+    second: LeftTale1
+  - first:
+      4: 400032
+    second: LeftTale2
+  - first:
+      4: 400034
+    second: LeftTale3
+  - first:
+      4: 400036
+    second: LeftTale4
+  - first:
+      4: 400038
+    second: LeftUptLeg
+  - first:
+      4: 400040
+    second: Neck
+  - first:
+      4: 400042
+    second: //RootNode
+  - first:
+      4: 400044
+    second: PC01_Kohaku
+  - first:
+      4: 400046
+    second: Reference
+  - first:
+      4: 400048
+    second: RightArm
+  - first:
+      4: 400050
+    second: RightEye
+  - first:
+      4: 400052
+    second: RightFoot
+  - first:
+      4: 400054
+    second: RightForeArm
+  - first:
+      4: 400056
+    second: RightHand
+  - first:
+      4: 400058
+    second: RightLeg
+  - first:
+      4: 400060
+    second: RightRibbon1
+  - first:
+      4: 400062
+    second: RightRibbon2
+  - first:
+      4: 400064
+    second: RightShoulder
+  - first:
+      4: 400066
+    second: RightSusoBack
+  - first:
+      4: 400068
+    second: RightSusoFront
+  - first:
+      4: 400070
+    second: RightTale1
+  - first:
+      4: 400072
+    second: RightTale2
+  - first:
+      4: 400074
+    second: RightTale3
+  - first:
+      4: 400076
+    second: RightTale4
+  - first:
+      4: 400078
+    second: RightUpLeg
+  - first:
+      4: 400080
+    second: Spine
+  - first:
+      4: 400082
+    second: Spine1
+  - first:
+      4: 400084
+    second: Spine2
+  - first:
+      43: 4300000
+    second: PC01_Kohaku
+  - first:
+      95: 9500000
+    second: //RootNode
+  - first:
+      137: 13700000
+    second: PC01_Kohaku
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: PC01_Kohaku
+    second: {fileID: 2100000, guid: 0e6fe962f7cee4ffea0666e217efeb3a, type: 2}
   materials:
-    importMaterials: 1
+    materialImportMode: 1
     materialName: 1
     materialSearch: 1
+    materialLocation: 0
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
-    resampleRotations: 1
-    optimizeGameObjects: 0
+    resampleCurves: 1
+    optimizeGameObjects: 1
     motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
     animationImportErrors: 
     animationImportWarnings: 
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
     animationCompression: 3
     animationRotationError: 0.5
     animationPositionError: 0.5
     animationScaleError: 0.5
     animationWrapMode: 0
     extraExposedTransformPaths: []
+    extraUserProperties: []
     clipAnimations: []
     isReadable: 1
   meshes:
@@ -121,13 +309,23 @@ ModelImporter:
     globalScale: 1
     meshCompression: 0
     addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importVisibility: 0
     importBlendShapes: 1
+    importCameras: 0
+    importLights: 0
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1
-    optimizeMeshForGPU: 1
     keepQuads: 0
     weldVertices: 1
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    meshOptimizationFlags: -1
+    indexFormat: 1
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
@@ -137,9 +335,14 @@ ModelImporter:
     normalSmoothAngle: 60
     normalImportMode: 0
     tangentImportMode: 3
+    normalCalculationMode: 0
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 1
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
   importAnimation: 1
-  copyAvatar: 0
   humanDescription:
+    serializedVersion: 3
     human:
     - boneName: Hips
       humanName: Hips
@@ -319,220 +522,220 @@ ModelImporter:
         modified: 0
     skeleton:
     - name: PC01_Kohaku(Clone)
+      parentName: 
       position: {x: 0, y: 0, z: 0}
       rotation: {x: 0, y: 0, z: 0, w: 1}
       scale: {x: 1, y: 1, z: 1}
-      transformModified: 1
     - name: GeoRoot
+      parentName: 
       position: {x: 0, y: 0, z: 0}
       rotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071068}
       scale: {x: 1, y: 1, z: 1}
-      transformModified: 1
     - name: PC01_Kohaku
+      parentName: 
       position: {x: 0, y: 0, z: 0}
       rotation: {x: 0, y: 0, z: 0, w: 1}
       scale: {x: 1, y: 1, z: 1}
-      transformModified: 1
     - name: Reference
+      parentName: 
       position: {x: 0, y: 0, z: 0}
       rotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071068}
       scale: {x: 1, y: 1, z: 1}
-      transformModified: 1
     - name: Hips
+      parentName: 
       position: {x: 6.897294e-10, y: -0.015779164, z: 0.62953776}
       rotation: {x: 0.7071068, y: -0.0000009693778, z: -0.7071068, w: -0.0000009693778}
       scale: {x: 1, y: 0.9999999, z: 0.9999999}
-      transformModified: 1
     - name: Spine
+      parentName: 
       position: {x: -0.1295904, y: -0.00009106636, z: 0.00000019764913}
       rotation: {x: -0.0000020927139, y: 0.0000007808391, z: -0.034967624, w: 0.99938846}
       scale: {x: 1.0000004, y: 1.0000002, z: 1.0000002}
-      transformModified: 1
     - name: Spine1
+      parentName: 
       position: {x: -0.11465355, y: -0.00010006427, z: -0.000000010662479}
       rotation: {x: -0.000000017718778, y: -0.0000003104449, z: 0.13479675, w: 0.9908733}
       scale: {x: 0.9999999, y: 0.99999976, z: 0.9999999}
-      transformModified: 1
     - name: Spine2
+      parentName: 
       position: {x: -0.13041137, y: -0.00010416031, z: 0.000000019282888}
       rotation: {x: -0.000000032669554, y: -0.00000034919304, z: 0.06432981, w: 0.9979287}
       scale: {x: 1.0000002, y: 1.0000005, z: 1.0000002}
-      transformModified: 1
     - name: Neck
+      parentName: 
       position: {x: -0.15268081, y: -0.0031092262, z: 0.00000001896995}
       rotation: {x: 0.000000020075522, y: 0.000000270402, z: -0.1024611, w: 0.994737}
       scale: {x: 0.9999998, y: 0.9999999, z: 0.99999976}
-      transformModified: 1
     - name: Head
+      parentName: 
       position: {x: -0.06150055, y: 0, z: 0.000000025659974}
       rotation: {x: -0.000000022819613, y: 0.00000028256622, z: -0.12899998, w: 0.9916446}
       scale: {x: 1.0000001, y: 1.0000004, z: 1.0000002}
-      transformModified: 1
     - name: LeftTale1
+      parentName: 
       position: {x: 0.030754775, y: -0.09676822, z: 0.10129501}
       rotation: {x: -0.14050166, y: -0.073776945, z: 0.98679286, w: 0.032498132}
       scale: {x: 0.99999994, y: 1.0000005, z: 0.99999934}
-      transformModified: 1
     - name: LeftTale2
+      parentName: 
       position: {x: -0.3879686, y: 0.00000034332274, z: -0.0000012207031}
       rotation: {x: 0.059801523, y: -0.017068824, z: 0.059267104, w: 0.99630314}
       scale: {x: 1.0000004, y: 1.0000004, z: 0.9999996}
-      transformModified: 1
     - name: LeftTale3
+      parentName: 
       position: {x: -0.19411322, y: -0.000000114440915, z: -0.000001335144}
       rotation: {x: 0.021567853, y: 0.00031119084, z: 0.07452892, w: 0.99698555}
       scale: {x: 0.99999994, y: 1.0000002, z: 1.0000005}
-      transformModified: 1
     - name: LeftTale4
+      parentName: 
       position: {x: -0.18327014, y: 0.000000057220458, z: -0.0000006866455}
       rotation: {x: -0.050880875, y: 0.70578486, z: 0.006980679, w: 0.7065622}
       scale: {x: 0.9999991, y: 1.0000006, z: 0.9999997}
-      transformModified: 1
     - name: Jaw
+      parentName: 
       position: {x: -0.042979352, y: 0.028087748, z: 0.00000023001317}
       rotation: {x: 0.70550156, y: 0.04761854, z: -0.70550156, w: 0.04761854}
       scale: {x: 0.99999946, y: 0.9999999, z: 1}
-      transformModified: 1
     - name: RightTale1
+      parentName: 
       position: {x: 0.030754928, y: -0.09676792, z: -0.101295315}
       rotation: {x: 0.14050344, y: 0.073774636, z: 0.98679274, w: 0.03249871}
       scale: {x: 1.0000019, y: 1.0000006, z: 0.9999998}
-      transformModified: 1
     - name: RightTale2
+      parentName: 
       position: {x: -0.38796782, y: 0.00000072479247, z: 0.0000037384032}
       rotation: {x: -0.059801415, y: 0.017075533, z: 0.059266318, w: 0.996303}
       scale: {x: 0.99999917, y: 1.0000012, z: 1.0000038}
-      transformModified: 1
     - name: RightTale3
+      parentName: 
       position: {x: -0.19411491, y: -0.000000076293944, z: 0.000000114440915}
       rotation: {x: -0.02156683, y: -0.00032181697, z: 0.07452849, w: 0.9969856}
       scale: {x: 0.99999624, y: 1.0000001, z: 1.0000039}
-      transformModified: 1
     - name: RightTale4
+      parentName: 
       position: {x: -0.18327053, y: -0.00000028610228, z: 0.0000035476685}
       rotation: {x: 0.050882496, y: -0.7057788, z: 0.0069815237, w: 0.7065682}
       scale: {x: 1.0000035, y: 1.0000001, z: 0.999996}
-      transformModified: 1
     - name: LeftEye
+      parentName: 
       position: {x: -0.08330047, y: -0.017302971, z: 0.058170054}
       rotation: {x: 0.7133591, y: -0.7007987, z: -0.00000047085769, w: -0.00000045876925}
       scale: {x: 0.9999996, y: 0.99999964, z: 0.9999997}
-      transformModified: 1
     - name: RightEye
+      parentName: 
       position: {x: -0.08330063, y: -0.01730278, z: -0.058174852}
       rotation: {x: 0.7133591, y: -0.7007987, z: -0.00000047085769, w: -0.00000045876925}
       scale: {x: 0.9999996, y: 0.99999964, z: 0.9999997}
-      transformModified: 1
     - name: LeftRibbon1
+      parentName: 
       position: {x: -0.27596655, y: 0.053312033, z: 0.0928185}
       rotation: {x: -0.43782642, y: -0.26207554, z: 0.67916334, w: 0.5275998}
       scale: {x: 0.99999946, y: 1, z: 1}
-      transformModified: 1
     - name: LeftRibbon2
+      parentName: 
       position: {x: -0.1561328, y: -0.000000076293944, z: 0.00000015258789}
       rotation: {x: -0.51568407, y: 0.5872867, z: -0.3985562, w: -0.47991374}
       scale: {x: 0.99999994, y: 1.0000001, z: 1}
-      transformModified: 1
     - name: RightRibbon1
+      parentName: 
       position: {x: -0.2759661, y: 0.05331232, z: -0.09281739}
       rotation: {x: 0.6853423, y: 0.68330896, z: 0.25106603, w: 0.018994223}
       scale: {x: 0.9999998, y: 1.0000002, z: 0.9999999}
-      transformModified: 1
     - name: RightRibbon2
+      parentName: 
       position: {x: -0.1561331, y: -0.00000015258789, z: -0.0000002670288}
       rotation: {x: -0.1784592, y: 0.070974134, z: 0.7008617, w: 0.6869555}
       scale: {x: 1.0000006, y: 1.0000004, z: 0.99999994}
-      transformModified: 1
     - name: LeftShoulder
+      parentName: 
       position: {x: -0.10608566, y: -0.0019091605, z: 0.029466536}
       rotation: {x: -0.6250843, y: -0.03693006, z: 0.7791392, w: 0.029119339}
       scale: {x: 0.9999997, y: 0.9999997, z: 0.99999994}
-      transformModified: 1
     - name: LeftArm
+      parentName: 
       position: {x: -0.08645228, y: 0.000000038146972, z: 0}
       rotation: {x: 0.18683028, y: 0.09242193, z: 0.024411594, w: 0.9777304}
       scale: {x: 0.9999999, y: 1, z: 0.9999999}
-      transformModified: 1
     - name: LeftForeArm
+      parentName: 
       position: {x: -0.22445877, y: -0.0000000047683715, z: -0.000000076293944}
       rotation: {x: -0.000000022093227, y: -0.00000005987685, z: 0.0121216215, w: 0.99992657}
       scale: {x: 1.0000001, y: 0.9999999, z: 1.0000001}
-      transformModified: 1
     - name: LeftHand
+      parentName: 
       position: {x: -0.22099178, y: 0.000000009536743, z: 0.00000015258789}
       rotation: {x: -0.7506044, y: -0.08141338, z: -0.15716945, w: 0.63660246}
       scale: {x: 0.99999994, y: 0.9999997, z: 0.99999994}
-      transformModified: 1
     - name: RightShoulder
+      parentName: 
       position: {x: -0.10608558, y: -0.0019089889, z: -0.029466555}
       rotation: {x: 0.62508416, y: 0.03692793, z: 0.77913946, w: 0.029117605}
       scale: {x: 0.9999999, y: 0.99999994, z: 0.99999994}
-      transformModified: 1
     - name: RightArm
+      parentName: 
       position: {x: -0.086452276, y: 0.000000038146972, z: 0}
       rotation: {x: -0.18683039, y: -0.092421, z: 0.024411386, w: 0.9777305}
       scale: {x: 1.0000001, y: 1, z: 1}
-      transformModified: 1
     - name: RightForeArm
+      parentName: 
       position: {x: -0.22445877, y: -0.000000047683713, z: 0.000000076293944}
       rotation: {x: -0.000000018568848, y: 0.00000014879744, z: 0.012121663, w: 0.99992657}
       scale: {x: 1.0000002, y: 0.99999976, z: 1.0000001}
-      transformModified: 1
     - name: RightHand
+      parentName: 
       position: {x: -0.22099167, y: -0.0000000047683715, z: -0.000000076293944}
       rotation: {x: 0.75060445, y: 0.08141297, z: -0.1571696, w: 0.6366024}
       scale: {x: 1.0000001, y: 1.0000001, z: 1.0000004}
-      transformModified: 1
     - name: LeftSusoFront
+      parentName: 
       position: {x: -0.089346424, y: 0.07710991, z: 0.09567279}
       rotation: {x: 0.6041565, y: -0.09459688, z: 0.72236985, w: -0.3228441}
       scale: {x: -1, y: -1.0000001, z: -1.0000001}
-      transformModified: 1
     - name: LeftSusoBack
+      parentName: 
       position: {x: -0.103113055, y: -0.109199874, z: 0.07957833}
       rotation: {x: -0.019557543, y: 0.6405338, z: -0.13691396, w: 0.7553732}
       scale: {x: -1.0000001, y: -1.0000001, z: -1.0000002}
-      transformModified: 1
     - name: RightSusoFront
+      parentName: 
       position: {x: -0.08934673, y: 0.07710937, z: -0.09567283}
       rotation: {x: -0.60415465, y: 0.09459874, z: 0.7223703, w: -0.32284573}
       scale: {x: -1, y: -1.0000005, z: -1.0000004}
-      transformModified: 1
     - name: RightSusoBack
+      parentName: 
       position: {x: -0.103113286, y: -0.10920029, z: -0.07957731}
       rotation: {x: 0.01955499, y: -0.6405329, z: -0.13691242, w: 0.7553742}
       scale: {x: -1.0000001, y: -1, z: -1.0000002}
-      transformModified: 1
     - name: LeftUptLeg
+      parentName: 
       position: {x: 0.00000015258789, y: 0.00000017523764, z: 0.10736133}
       rotation: {x: 0.03228681, y: 0.99705213, z: 0.009185707, w: -0.06899475}
       scale: {x: 1, y: 1.0000004, z: 1.0000002}
-      transformModified: 1
     - name: LeftLeg
+      parentName: 
       position: {x: -0.27670237, y: -0.0000000047683715, z: 0.00000012874602}
       rotation: {x: 0.000000023637172, y: 0.00000018745243, z: 0.042942073, w: 0.99907756}
       scale: {x: 1.0000002, y: 1.0000001, z: 1.0000004}
-      transformModified: 1
     - name: LeftFoot
+      parentName: 
       position: {x: -0.2718176, y: 0.000000014305114, z: 0.000000029802322}
       rotation: {x: 0.0062151523, y: -0.06932506, z: -0.075072445, w: 0.99474597}
       scale: {x: 1, y: 1.0000001, z: 0.99999994}
-      transformModified: 1
     - name: RightUpLeg
+      parentName: 
       position: {x: -0.00000015258789, y: -0.00000012040138, z: -0.107361354}
       rotation: {x: 0.03228457, y: 0.99705225, z: -0.009187272, w: 0.06899341}
       scale: {x: 1, y: 0.9999996, z: 0.9999997}
-      transformModified: 1
     - name: RightLeg
+      parentName: 
       position: {x: -0.2767024, y: -0.0000000047683715, z: 0.000000019073486}
       rotation: {x: -6.692936e-10, y: 0.00000003725853, z: 0.04294315, w: 0.99907756}
       scale: {x: 1.0000001, y: 1.0000004, z: 1.0000004}
-      transformModified: 1
     - name: RightFoot
+      parentName: 
       position: {x: -0.27181754, y: -0.000000023841856, z: 0.000000026226044}
       rotation: {x: -0.006215295, y: 0.069325075, z: -0.07507137, w: 0.9947461}
       scale: {x: 1.0000001, y: 1.0000002, z: 1}
-      transformModified: 1
     armTwist: 0.5
     foreArmTwist: 0.5
     upperLegTwist: 0.5
@@ -540,11 +743,16 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
+    globalScale: 1
     rootMotionBoneName: 
     hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 0
   lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
   animationType: 3
   humanoidOversampling: 1
+  avatarSetup: 1
   additionalBone: 0
   userData: 
   assetBundleName: 

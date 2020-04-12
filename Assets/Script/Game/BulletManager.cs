@@ -3,57 +3,94 @@ using System.Collections;
 
 public class BulletManager : MonoBehaviour
 {
+    public enum PlayerMode
+    {
+        Non,
+        Normal,
+        MachinGun
+    }
 
     public GameObject bulletPrefab;
 
 
-    public Transform target;
-    public bool isMachineGun;
+    public Renderer target;
+    private PlayerMode playMode;
+
+    private PlayerMode previewPlayMode;
     private Camera mainCamera;
     private float btnTime = 0.0f;
 
+    private MaterialPropertyBlock materialPropertyBlock;
+
     void Start()
     {
+        previewPlayMode = playMode;
+        playMode = PlayerMode.Normal;
         this.mainCamera = this.GetComponent<Camera>();
+        materialPropertyBlock = new MaterialPropertyBlock();
     }
-	
+
     // カメラ自体を動かす可能性も考慮して敢えて…
-	void LateUpdate () {
+    void LateUpdate () {
         bool inputFlag = false;
+        var ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+        Vector3 targetPosition = ray.origin + ray.direction * 10;
+        target.transform.position = targetPosition;
+
+        if (previewPlayMode != playMode)
+        {
+
+            switch (playMode)
+            {
+                case PlayerMode.Non:
+                    materialPropertyBlock.SetColor("_Color", Color.black);
+                    break;
+                case PlayerMode.Normal:
+                    materialPropertyBlock.SetColor("_Color", Color.white);
+                    break;
+                case PlayerMode.MachinGun:
+                    materialPropertyBlock.SetColor("_Color", Color.red);
+                    break;
+            }
+            target.SetPropertyBlock(materialPropertyBlock);
+        }
+
+        previewPlayMode = playMode;
 
         // マシンガンモードの時の入力処理
-        if (isMachineGun)
+        switch (playMode)
         {
-            bool flag = Input.GetMouseButton(0) || Input.GetKey(KeyCode.Return);
-            if( flag)
-            {
-                btnTime += Time.deltaTime;
-                if(btnTime > 0.1f)
+            case PlayerMode.MachinGun:
                 {
-                    inputFlag = true;
-                    btnTime = 0.0f;
+                    bool flag = Input.GetMouseButton(0) || Input.GetKey(KeyCode.Return);
+                    if (flag)
+                    {
+                        btnTime += Time.deltaTime;
+                        if (btnTime > 0.1f)
+                        {
+                            inputFlag = true;
+                            btnTime = 0.0f;
+                        }
+                    }
+                    else
+                    {
+                        btnTime = 0.0f;
+                    }
                 }
-            }
-            else
-            {
-                btnTime = 0.0f;
-            }
-        }
-        // 通常時の処理
-        else
-        {
-            inputFlag = Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Return);
+                break;
+            case PlayerMode.Normal:
+                inputFlag = Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Return);
+                break;
         }
 
-        var ray = mainCamera.ScreenPointToRay( Input.mousePosition );
-        target.position = ray.origin + ray.direction * 10;
+        
 
 
         if ( inputFlag )
         {
             GameObject obj = Instantiate(bulletPrefab, transform.position + ray.direction *2, transform.rotation)as GameObject;
             Bullet bullet = obj.GetComponent<Bullet>();
-            bullet.delta = (target.position - transform.position ).normalized * 50;
+            bullet.delta = (targetPosition - transform.position ).normalized * 50;
         }
 	}
 }

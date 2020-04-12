@@ -55,6 +55,7 @@ namespace TimelineExtention
 
             // origin camera
             var cameraGmo = GameObject.Find("MainCamera");
+            if( cameraGmo == null) { return; }
             var originCamera = cameraGmo.GetComponent<Camera>();
 
 

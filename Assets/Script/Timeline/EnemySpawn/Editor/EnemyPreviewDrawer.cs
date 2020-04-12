@@ -11,23 +11,12 @@ public class EnemyPreviewDrawer : System.IDisposable
     private Camera camera;
     private GameObject prefab;
     private GameObject instanceObject;
-    public RenderTexture renderTexture { 
-        get {
-            if (!_renderTextureData)
-            {
-                _renderTextureData = new RenderTexture(renderSize.x, renderSize.y, 24);
-                this.Render();
-            }
-            return _renderTextureData;
-        }
-        private set {
-            _renderTextureData = value;
-        } 
+    public RenderTexture renderTexture {
+        get;private set;
     }
     private double previewTime;
 
     private Animator[] animators;
-    private RenderTexture _renderTextureData;
     private Vector2Int renderSize;
 
     public EnemyPreviewDrawer()
@@ -54,17 +43,21 @@ public class EnemyPreviewDrawer : System.IDisposable
         {
             return;
         }
+        this.renderSize.x = w;
+        this.renderSize.y = h;
+        InitRenderTexture();
+    }
+    private void InitRenderTexture()
+    {
         if (this.camera != null)
         {
             var rt = camera.targetTexture;
             this.camera.targetTexture = null;
-            if( rt != null) { rt.Release(); }
-            this.renderTexture = new RenderTexture(w, h, 24);
+            if (rt != null) { rt.Release(); }
+            this.renderTexture = new RenderTexture(renderSize.x, renderSize.y, 24);
+            this.renderTexture.Create();
             this.camera.targetTexture = this.renderTexture;
         }
-
-        this.renderSize.x = w;
-        this.renderSize.y = h;
     }
 
     public void Render()
@@ -85,6 +78,11 @@ public class EnemyPreviewDrawer : System.IDisposable
             camera.targetTexture = renderTexture;
             camera.fieldOfView = 45;
             camera.clearFlags = CameraClearFlags.Color;
+        }
+        // setup renderTexture
+        if(!this.renderTexture || !this.renderTexture.IsCreated() )
+        {
+            InitRenderTexture();
         }
         // setup instance obj
         if( instanceObject == null)

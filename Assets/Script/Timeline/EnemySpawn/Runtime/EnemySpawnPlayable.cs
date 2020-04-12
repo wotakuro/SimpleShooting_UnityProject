@@ -11,7 +11,7 @@ namespace TimelineExtention
         private GameObject instanceGmo;
         private Enemy enemy;
 
-        public void SetEnemyPrefab(GameObject enemyPrefab, Vector3 startPosition, Vector3 endPosition)
+        public void InitEnemyFromPrefab(GameObject enemyPrefab, Vector3 startPosition, Vector3 endPosition)
         {
             if (enemyPrefab != null)
             {
@@ -26,9 +26,17 @@ namespace TimelineExtention
                     instanceGmo.hideFlags = HideFlags.HideAndDontSave;
                 }
 #endif
-                enemy = instanceGmo.GetComponent<Enemy>();
+                this.enemy = instanceGmo.GetComponent<Enemy>();
                 enemy.SetPosition(startPosition, endPosition);
                 instanceGmo.SetActive(false);
+            }
+        }
+
+        public void SetEnemyFlags(bool explode,bool size,bool color)
+        {
+            if( this.enemy != null)
+            {
+                this.enemy.SetFlags(explode, size, color);
             }
         }
 
@@ -44,9 +52,9 @@ namespace TimelineExtention
         public override void OnBehaviourPlay(Playable playable, FrameData info)
         {
             base.OnBehaviourPlay(playable, info);
-            if (instanceGmo)
+            if (instanceGmo && this.enemy)
             {
-                instanceGmo.SetActive(true);
+                this.enemy.TimeStart();
             }
         }
 
@@ -54,16 +62,16 @@ namespace TimelineExtention
         public override void OnBehaviourPause(Playable playable, FrameData info)
         {
             base.OnBehaviourPause(playable, info);
-            if (instanceGmo)
+            if (instanceGmo && this.enemy)
             {
-                instanceGmo.SetActive(false);
+                this.enemy.TimeOver();
             }
         }
 
         public override void PrepareFrame(Playable playable, FrameData info)
         {
             base.PrepareFrame(playable, info);
-            if (this.instanceGmo)
+            if (this.instanceGmo && this.enemy)
             {
                 this.enemy.SetTime((float)playable.GetTime(), (float)playable.GetDuration());
             }
