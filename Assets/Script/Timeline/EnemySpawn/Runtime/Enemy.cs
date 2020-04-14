@@ -24,6 +24,7 @@ public class Enemy : MonoBehaviour
     private bool isColorChange = true;
     private Vector3 startPosition;
     private Vector3 endPosition;
+    private float explosionPower = 7.5f;
 
 
 #if UNITY_EDITOR
@@ -44,9 +45,9 @@ public class Enemy : MonoBehaviour
 
         this.transform.LookAt(endPos);
 	}
-    public void SetFlags(bool explosion,bool size,bool color )
+    public void SetFlags(float expow,bool size,bool color )
     {
-        this.isExplosion = explosion;
+        this.explosionPower = expow;
         this.isSizeChange = size;
         this.isColorChange = color;
     }
@@ -132,6 +133,7 @@ public class Enemy : MonoBehaviour
 
     private void SetSizeByTime(float timer,float length)
     {
+
         float beginSmallerStart = length - 0.5f;
 
         if( timer < 0.5f)
@@ -166,9 +168,9 @@ public class Enemy : MonoBehaviour
     private void Die()
     {
         // 誘爆ロジック
-        if (isExplosion)
+        if (explosionPower > 0.01f)
         {
-            float radius = this.transform.localScale.magnitude * 2.8f;
+            float radius = this.transform.localScale.magnitude * explosionPower;
             Collider[] colliders = Physics.OverlapSphere(transform.position, radius, 1 << LAYER);
             foreach (var hit in colliders)
             {

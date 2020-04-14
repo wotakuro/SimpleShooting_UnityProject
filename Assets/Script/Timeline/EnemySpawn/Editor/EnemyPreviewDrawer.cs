@@ -32,7 +32,8 @@ public class EnemyPreviewDrawer : System.IDisposable
         {
             GameObject.DestroyImmediate(instanceObject);
         }
-        instanceObject = null;
+        this.animators = null;
+        this.instanceObject = null;
 
         this.prefab = obj;
     }
@@ -127,7 +128,10 @@ public class EnemyPreviewDrawer : System.IDisposable
         float time = (float)(current- previewTime );
         foreach ( var anim in animators)
         {
-            anim.Update(time);
+            if (anim)
+            {
+                anim.Update(time);
+            }
         }
         previewTime = current;
     }

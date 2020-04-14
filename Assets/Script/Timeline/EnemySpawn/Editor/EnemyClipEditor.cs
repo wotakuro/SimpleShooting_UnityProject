@@ -49,38 +49,50 @@ namespace TimelineExtention
             {
                 timeline = timelineGmo.GetComponent<PlayableDirector>();
             }
+            double backupTime = timeline.time;
             double timelineStart, timelineEnd;
 
             GetTimelineTrackPostion(out timelineStart, out timelineEnd);
 
             // origin camera
             var cameraGmo = GameObject.Find("MainCamera");
-            if( cameraGmo == null) { return; }
+            if (cameraGmo == null) { return; }
             var originCamera = cameraGmo.GetComponent<Camera>();
 
 
+            EditorTimelineEvaluator.Clear();
             //end
-            if( timelineEnd >= 0.0)
+            if (timelineEnd >= 0.0)
             {
-                timeline.time = timelineEnd;
-                timeline.RebuildGraph();
-                timeline.Evaluate();
+                EditorTimelineEvaluator.Evaluate(timeline, timelineEnd, () => {
+                    var endCameraGmo = new GameObject();
+                    this.endCamera = endCameraGmo.AddComponent<Camera>();
+                    SetupCamera(this.endCamera, originCamera);
+                });
             }
-            var endCameraGmo = new GameObject();
-            this.endCamera = endCameraGmo.AddComponent<Camera>();
-            SetupCamera(this.endCamera, originCamera);
-
-
-            // start
+            //  start
             if (timelineStart >= 0.0)
             {
-                timeline.time = timelineStart;
-                timeline.RebuildGraph();
-                timeline.Evaluate();
+                EditorTimelineEvaluator.Evaluate(timeline, timelineStart, () => {
+                    var startCameraGmo = new GameObject();
+                    this.startCamera = startCameraGmo.AddComponent<Camera>();
+                    SetupCamera(this.startCamera, originCamera);
+                    this.Repaint();
+                    RequestGameViewRepaint();
+                });
             }
-            var startCameraGmo = new GameObject();
-            this.startCamera = startCameraGmo.AddComponent<Camera>();
-            SetupCamera(this.startCamera, originCamera);
+        }
+
+        private static void RequestGameViewRepaint()
+        {
+            var windows = Resources.FindObjectsOfTypeAll<EditorWindow>();
+            foreach( var window in windows)
+            {
+                if( window.GetType().FullName == "UnityEditor.GameView")
+                {
+                    window.Repaint();
+                }
+            }
         }
 
         private void GetTimelineTrackPostion(out double start , out double end)
@@ -205,7 +217,7 @@ namespace TimelineExtention
             var rect = EditorGUILayout.GetControlRect(GUILayout.Height(150), GUILayout.Width(250));
             {
                 var startRect = new Rect(rect.x + 25, rect.y + 10, 240, 135);
-                DrawRect(startRect, mouseInfo, screenOriginPoint, ref screenNewPoint, ref requireRepaint);
+                DrawRect(startRect,(camera != null), mouseInfo, screenOriginPoint, ref screenNewPoint, ref requireRepaint);
             }
             EditorGUILayout.LabelField("奥行き");
             screenNewPoint.z = EditorGUILayout.Slider(screenNewPoint.z, 1.0f, 150.0f, GUILayout.Width(250));
@@ -220,7 +232,8 @@ namespace TimelineExtention
             return flag;
         }
 
-        private void DrawRect( Rect r, Vector3 mouseInfo,
+        private void DrawRect( Rect r, bool hasCamera,
+            Vector3 mouseInfo,
             Vector3 originScreenPoint,
             ref Vector4 newScreenPoint,ref bool requireRepaint)
         {
@@ -248,17 +261,20 @@ namespace TimelineExtention
                     }
                 }
             }
-            // blue
-            if( newScreenPoint.w >= 0.99f)
+            if (hasCamera)
             {
-                Vector2 menuNewPoint = new Vector2(r.x + r.width * newScreenPoint.x,
-                    r.y + r.height * (1.0f - newScreenPoint.y));
-                EditorGUI.DrawRect(new Rect(menuNewPoint.x - 5, menuNewPoint.y - 1, 10, 2), Color.blue);
-                EditorGUI.DrawRect(new Rect(menuNewPoint.x - 1, menuNewPoint.y - 5, 2, 10), Color.blue);
+                // blue
+                if (newScreenPoint.w >= 0.99f)
+                {
+                    Vector2 menuNewPoint = new Vector2(r.x + r.width * newScreenPoint.x,
+                        r.y + r.height * (1.0f - newScreenPoint.y));
+                    EditorGUI.DrawRect(new Rect(menuNewPoint.x - 5, menuNewPoint.y - 1, 10, 2), Color.blue);
+                    EditorGUI.DrawRect(new Rect(menuNewPoint.x - 1, menuNewPoint.y - 5, 2, 10), Color.blue);
+                }
+                // origin
+                EditorGUI.DrawRect(new Rect(menuOriginPoint.x - 5, menuOriginPoint.y - 1, 10, 2), Color.red);
+                EditorGUI.DrawRect(new Rect(menuOriginPoint.x - 1, menuOriginPoint.y - 5, 2, 10), Color.red);
             }
-            // origin
-            EditorGUI.DrawRect(new Rect(menuOriginPoint.x - 5, menuOriginPoint.y - 1, 10, 2), Color.red);
-            EditorGUI.DrawRect(new Rect(menuOriginPoint.x - 1, menuOriginPoint.y - 5, 2, 10), Color.red);
         }
     }
 }

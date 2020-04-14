@@ -23,7 +23,7 @@ namespace TimelineExtention
         {
             get;set;
         }
-        public bool explodeFlag { get; set; }
+        public float explodePow { get; set; }
         public bool sizeFlag { get; set; }
         public bool colorFlag { get; set; }
 
@@ -33,7 +33,7 @@ namespace TimelineExtention
 
             var behaviour = playable.GetBehaviour();
             behaviour.InitEnemyFromPrefab( enemyPrefab , startPosition,endPosition);
-            behaviour.SetEnemyFlags(explodeFlag, sizeFlag, colorFlag);
+            behaviour.SetEnemyFlags(explodePow, sizeFlag, colorFlag);
             return playable;   
 		}
 	}

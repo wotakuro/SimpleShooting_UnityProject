@@ -27,7 +27,7 @@ namespace TimelineExtention
             if (playableDirector != null)
             {
                 playableDirector.RebuildGraph();
-                playableDirector.Evaluate();
+                EditorTimelineEvaluator.Evaluate(playableDirector);
             }
         }
 #endif

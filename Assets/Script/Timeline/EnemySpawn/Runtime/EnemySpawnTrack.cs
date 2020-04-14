@@ -11,7 +11,7 @@ namespace TimelineExtention
         [SerializeField]
         public GameObject enemyPrefab;
         [SerializeField]
-        public bool explodeFlag = true;
+        public float explodePow = 7.5f;
         [SerializeField]
         public bool sizeFlag = true;
         [SerializeField]
@@ -33,7 +33,7 @@ namespace TimelineExtention
         {
             EnemySpawnClip enemyClip = clip.asset as EnemySpawnClip;
             enemyClip.enemyPrefab = this.enemyPrefab;
-            enemyClip.explodeFlag = this.explodeFlag;
+            enemyClip.explodePow = this.explodePow;
             enemyClip.sizeFlag = this.sizeFlag;
             enemyClip.colorFlag = this.colorFlag;
 #if UNITY_EDITOR
@@ -42,12 +42,15 @@ namespace TimelineExtention
             return base.CreatePlayable(graph, gameObject, clip);
         }
 #if UNITY_EDITOR
+
         public void RebuildGraph()
         {
             if (playableDirector != null)
             {
-                playableDirector.RebuildGraph();
-                playableDirector.Evaluate();
+                double timebackup = playableDirector.time;
+
+                playableDirector.timeUpdateMode = DirectorUpdateMode.Manual;
+                EditorTimelineEvaluator.Evaluate(playableDirector);
             }
         }
 #endif

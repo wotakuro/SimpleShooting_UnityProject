@@ -32,11 +32,11 @@ namespace TimelineExtention
             }
         }
 
-        public void SetEnemyFlags(bool explode,bool size,bool color)
+        public void SetEnemyFlags(float explodePow,bool size,bool color)
         {
             if( this.enemy != null)
             {
-                this.enemy.SetFlags(explode, size, color);
+                this.enemy.SetFlags(explodePow, size, color);
             }
         }
 

@@ -35,7 +35,7 @@ namespace TimelineExtention
             EnemySpawnTrack enemySpawnTrack = this.target as EnemySpawnTrack;
 
 
-            bool newExplode = EditorGUILayout.Toggle("爆発した時、巻き込むか", enemySpawnTrack.explodeFlag);
+            var newExplode = EditorGUILayout.FloatField("爆発力", enemySpawnTrack.explodePow);
             bool newColor   = EditorGUILayout.Toggle("時間による色変更(2Dのみ)", enemySpawnTrack.colorFlag);
             bool newSize    = EditorGUILayout.Toggle("時間による大きさ変更", enemySpawnTrack.sizeFlag);
             //            base.OnInspectorGUI();
@@ -46,11 +46,11 @@ namespace TimelineExtention
                 window.Show();
             }
 
-            if(newExplode != enemySpawnTrack.explodeFlag || 
+            if(newExplode != enemySpawnTrack.explodePow || 
                 newColor != enemySpawnTrack.colorFlag ||
                 newSize != enemySpawnTrack.sizeFlag )
             {
-                enemySpawnTrack.explodeFlag = newExplode;
+                enemySpawnTrack.explodePow = newExplode;
                 enemySpawnTrack.colorFlag = newColor;
                 enemySpawnTrack.sizeFlag = newSize;
                 EditorUtility.SetDirty(this);
