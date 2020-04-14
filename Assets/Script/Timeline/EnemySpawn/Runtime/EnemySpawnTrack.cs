@@ -48,7 +48,7 @@ namespace TimelineExtention
             if (playableDirector != null)
             {
                 double timebackup = playableDirector.time;
-
+                playableDirector.RebuildGraph();
                 playableDirector.timeUpdateMode = DirectorUpdateMode.Manual;
                 EditorTimelineEvaluator.Evaluate(playableDirector);
             }
