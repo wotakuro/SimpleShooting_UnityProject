@@ -9,6 +9,7 @@ public class StageTimeline : MonoBehaviour
     {
         playableDirector = this.GetComponent<PlayableDirector>();
         playableDirector.Stop();
+        playableDirector.time = 0;
         playableDirector.timeUpdateMode = DirectorUpdateMode.GameTime;
         playableDirector.Play();
         playableDirector.stopped += ChangeLevel;
